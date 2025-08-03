@@ -25,7 +25,11 @@ export default function MovieRecommender() {
         body: JSON.stringify({ movie: input }),
       })
 
-      const recommendedTitles = await res.json()
+      const result = await res.json();
+const recommendedTitles = result.recommendations;
+console.log("Received titles:", recommendedTitles);
+
+
 
       // Fetch OMDb details for each recommended title
       const omdbPromises = recommendedTitles.map(async (title) => {
