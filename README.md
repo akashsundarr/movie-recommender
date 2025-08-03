@@ -83,19 +83,23 @@ Note: The backend automatically downloads this model using gdown on deployment/s
 * **Frontend**: Vercel
 
 
+### Project Workflow
+
+Here is the project workflow presented as a tree structure:
+
+```mermaid
 graph TD
-    A[User's Browser] -->|1. Enters a movie title| B(Frontend App on Vercel)
-    B -->|2. Sends POST request with movie title| C(Backend API on Render)
+    A[User's Browser]
+    A --> B(Frontend App on Vercel)
     
-    subgraph Backend Startup
-        C -->|3. Checks for model.pkl| D{Model Exists?}
-        D -->|No| E[Downloads model from Google Drive]
-        E --> C
-    end
+    B --> |Sends movie title| C(Backend API on Render)
     
-    C -->|4. Returns list of movie titles| B
-    B -->|5. For each movie, fetches details| F(OMDb API)
-    F -->|6. Returns movie data| B
-    B -->|7. Displays movie cards| A
-
-
+    C --> |Conditional Download| D{model.pkl on Google Drive?}
+    
+    C --> |Returns movie titles| B
+    
+    B --> |Fetches details| E(OMDb API)
+    
+    E --> |Returns movie data| B
+    
+    B --> |Displays recommendations| A
