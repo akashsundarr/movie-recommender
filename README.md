@@ -42,11 +42,13 @@ movie-recommender/
 
 ## 🔗 Links
 
-* **Live Demo (Frontend)**: [[link](https://movie-recommender-bice.vercel.app/](https://movie-recommender-nu-three.vercel.app))
-* **Backend API Base URL**: [https://movie-recommender-bit5.onrender.com/](https://movie-recommender-bit5.onrender.com/)
-* **ML Model (.pkl) on Google Drive**: [https://drive.google.com/uc?export=download&id=1sGPdOb3SJLy7TzSn5ULYVKQplsR0tLpk](https://drive.google.com/uc?export=download&id=1sGPdOb3SJLy7TzSn5ULYVKQplsR0tLpk)
-    * *Note*: The backend automatically downloads this model using `gdown` on deployment/startup.
-* **GitHub Repository**: (Add your GitHub repository link here)
+Live Demo (Frontend): https://movie-recommender-nu-three.vercel.app
+
+Backend API Base URL: https://movie-recommender-bit5.onrender.com
+
+ML Model (.pkl) on Google Drive: https://drive.google.com/file/d/1sGPdOb3SJLy7TzSn5ULYVKQplsR0tLpk/view
+
+Note: The backend automatically downloads this model using gdown on deployment/startup.
 
 ## 🚧 Struggles & Solutions 🚧
 
