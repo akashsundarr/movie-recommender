@@ -26,8 +26,12 @@ export default function MovieRecommender() {
       })
 
       const result = await res.json();
-const recommendedTitles = result.recommendations;
-console.log("Received titles:", recommendedTitles);
+      console.log("Full backend response:", result);
+      if (!result.recommendations) {
+  throw new Error("No recommendations returned");
+}
+      const recommendedTitles = result.recommendations;
+
 
 
 
