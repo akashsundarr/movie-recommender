@@ -17,7 +17,7 @@ export default function MovieRecommender() {
 
     try {
       // Send movie title to Flask backend
-      const res = await fetch("http://localhost:5000/recommend", {
+      const res = await fetch("https://movie-recommender-backend.onrender.com/recommend", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
