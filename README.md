@@ -82,4 +82,22 @@ Note: The backend automatically downloads this model using gdown on deployment/s
 * **Backend**: Render
 * **Frontend**: Vercel
 
+```mermaid
+graph TD
+    A[User's Browser] -->|1. Enters a movie title| B(Frontend App on Vercel)
+    B -->|2. Sends POST request with movie title| C(Backend API on Render)
+    
+    subgraph Backend Startup
+        C -->|3. Checks for model.pkl| D{Model Exists?}
+        D -->|No| E[Downloads model from Google Drive]
+        E --> C
+    end
+    
+    C -->|4. Returns list of movie titles| B
+    B -->|5. For each movie, fetches details| F(OMDb API)
+    F -->|6. Returns movie data (poster, etc.)| B
+    B -->|7. Displays movie cards| A
+
+```
+
 
