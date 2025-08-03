@@ -67,12 +67,12 @@ export default function MovieRecommender() {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Enter a movie title"
           className="flex-grow px-4 py-2 border border-zinc-700 bg-zinc-800 text-gray-100 placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm"
         />
         <Button
           onClick={fetchRecommendations}
-          onKeyDown={handleKeyDown}
           className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-950 transition-all duration-200 shadow-md"
           disabled={loading}
         >
