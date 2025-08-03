@@ -52,7 +52,7 @@ export default function MovieRecommender() {
       setMovies(detailedMovies)
     } catch (err) {
       console.error("Error fetching recommendations:", err)
-      alert("Something went wrong while fetching recommendations.")
+      
     }
 
     setLoading(false)
