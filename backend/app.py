@@ -27,21 +27,26 @@ CORS(app, resources={r"/recommend": {"origins": "*"}})
 @app.route("/recommend", methods=["POST"])
 def recommend():
     req = request.get_json()
-    movie = req.get("movie")
+    movie_input = req.get("movie", "").strip().lower()
 
-    if not movie:
+    if not movie_input:
         return jsonify({"error": "Missing 'movie' field"}), 400
 
-    if movie not in data['title'].values:
-        return jsonify({"error": f"Movie '{movie}' not found"}), 404
+    # Create a lowercase title series for comparison
+    data["title_lower"] = data["title"].str.strip().str.lower()
 
-    idx = data[data['title'] == movie].index[0]
+    if movie_input not in data["title_lower"].values:
+        return jsonify({"error": f"Movie '{movie_input}' not found"}), 404
+
+    # Get original index
+    idx = data[data["title_lower"] == movie_input].index[0]
     sim_scores = list(enumerate(similarity[idx]))
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)[1:6]
 
-    recommendations = data.iloc[[i[0] for i in sim_scores]]['title'].tolist()
+    recommendations = data.iloc[[i[0] for i in sim_scores]]["title"].tolist()
 
     return jsonify({"recommendations": recommendations})
+
 
 @app.route("/")
 def home():
