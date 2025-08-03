@@ -117,8 +117,3 @@ Open `Movie_recommendation_system.ipynb` in **Google Colab** to view or retrain 
 - **Frontend**: [Vercel](https://vercel.com/)
 
 ---
-
-## 📌 Author
-
-Made with ❤️ by Akash Sundar  
-> Powered by curiosity, built with Python + React.
