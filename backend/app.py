@@ -19,7 +19,8 @@ with open(MODEL_PATH, "rb") as f:
     similarity, data = pickle.load(f)  # tuple unpacking
 
 app = Flask(__name__)
-CORS(app, origins=["https://movie-recommender-nu-three.vercel.app"])
+CORS(app, origins=r"https://.*\.vercel\.app")
+
 
 
 @app.route("/recommend", methods=["POST"])
