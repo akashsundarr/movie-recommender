@@ -42,7 +42,11 @@ console.log("Received titles:", recommendedTitles);
       const detailedMovies = await Promise.all(omdbPromises)
       setMovies(detailedMovies)
     } catch (err) {
-      console.error("Error fetching recommendations:", err)
+      catch (err) {
+  console.error("Error fetching recommendations:", err)
+  alert("Something went wrong while fetching recommendations.")
+}
+
     }
 
     setLoading(false)
