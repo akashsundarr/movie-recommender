@@ -1,6 +1,4 @@
-Got it, Akash\! As a fellow developer, I understand the need for a clean, emoji-rich README. Here's a GitHub README template, ready for your Movie Recommendation System, incorporating your tech stack with emojis and the simplified "Struggles & Solutions" section.
 
-```markdown
 # 🎬 Movie Recommendation System
 
 A fullstack web application that provides movie recommendations based on content-based filtering.
@@ -27,14 +25,12 @@ This project leverages Python for its recommendation engine, exposing an API via
 
 ## 📁 Project Structure
 
-```
 
 movie-recommender/
 ├── backend/                  \# Flask API for recommendations
 ├── movie-app/                \# React user interface
 └── Movie\_recommendation\_system.ipynb  \# Jupyter Notebook for ML model development
 
-```
 
 ## ▶️ How to Run
 
@@ -87,4 +83,4 @@ movie-recommender/
 ## 👨‍💻 Author
 
 Akash Sundar - BTech CSE, Web & Cloud Developer, ML Enthusiast.
-```
+
