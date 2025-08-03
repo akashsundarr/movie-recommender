@@ -19,10 +19,7 @@ with open(MODEL_PATH, "rb") as f:
     similarity, data = pickle.load(f)  # tuple unpacking
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": [
-    "https://movie-recommender-nu-three.vercel.app",
-    "https://movie-recommender-git-main-akash-sundars-projects.vercel.app"
-]}})
+CORS(app)
 
 
 
