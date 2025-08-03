@@ -4,58 +4,62 @@ import gdown
 import pandas as pd
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from sklearn.metrics.pairwise import cosine_similarity
 
-# ---- Auto-download model.pkl if not present ----
-MODEL_URL = "https://drive.google.com/uc?export=download&id=1sGPdOb3SJLy7TzSn5ULYVKQplsR0tLpk"
-MODEL_PATH = "model.pkl"
-
-if not os.path.exists("model.pkl"):
-    print("Downloading model.pkl...")
-    gdown.download(MODEL_URL, "model.pkl", quiet=False)
-    print("model.pkl downloaded.")
-
-# ---- Load model ----
-with open(MODEL_PATH, "rb") as f:
-    model_data = pickle.load(f)
-
-data = model_data["data"]               # pandas DataFrame with 'title' and 'cleaned_text'
-tfidf_matrix = model_data["matrix"]    # TF-IDF matrix
-
-# ---- Setup Flask ----
 app = Flask(__name__)
 CORS(app)
 
-# ---- Recommendation function ----
-def recommend_movies(movie_name, top_n=5):
-    idx = data[data['title'].str.lower() == movie_name.lower()].index
-    if len(idx) == 0:
+MODEL_URL = "https://drive.google.com/uc?export=download&id=1sGPdOb3SJLy7TzSn5ULYVKQplsR0tLpk"
+MODEL_PATH = "model.pkl"
+
+# ---- Step 1: Download model.pkl if not exists ----
+if not os.path.exists(MODEL_PATH):
+    print("Downloading model.pkl...")
+    gdown.download(MODEL_URL, MODEL_PATH, quiet=False)
+    print("model.pkl downloaded.")
+
+# ---- Step 2: Load model.pkl ----
+with open(MODEL_PATH, "rb") as f:
+    model_data = pickle.load(f)
+
+# ---- Step 3: Extract data and similarity matrix ----
+try:
+    data = model_data["data"]               # Pandas DataFrame with 'title' and 'cleaned_text'
+    similarity = model_data["similarity"]   # Similarity matrix (e.g., cosine similarity)
+except (KeyError, TypeError):
+    raise ValueError("model.pkl does not contain expected keys: 'data', 'similarity'.")
+
+# ---- Step 4: Recommend similar movies ----
+def recommend_movies(movie_title, top_n=5):
+    movie_title = movie_title.lower()
+    if movie_title not in data['title'].str.lower().values:
         return []
 
-    idx = idx[0]
-    sim_scores = list(enumerate(cosine_similarity(tfidf_matrix[idx], tfidf_matrix).flatten()))
-    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-    sim_scores = sim_scores[1:top_n+1]  # Skip the movie itself
+    index = data[data['title'].str.lower() == movie_title].index[0]
+    similarity_scores = list(enumerate(similarity[index]))
+    similarity_scores = sorted(similarity_scores, key=lambda x: x[1], reverse=True)
+    recommended_indices = [i[0] for i in similarity_scores[1:top_n+1]]
+    recommended_titles = data.iloc[recommended_indices]['title'].tolist()
+    return recommended_titles
 
-    movie_indices = [i[0] for i in sim_scores]
-    return data[['title']].iloc[movie_indices].to_dict(orient="records")
+# ---- API Routes ----
+@app.route("/ping", methods=["GET"])
+def ping():
+    return jsonify({"message": "API running successfully 🚀"}), 200
 
-# ---- API Route ----
 @app.route("/recommend", methods=["POST"])
 def recommend():
-    data_in = request.get_json()
-    movie_title = data_in.get("title", "")
-    
+    req_data = request.get_json()
+    movie_title = req_data.get("movie")
+
     if not movie_title:
-        return jsonify({"error": "No movie title provided"}), 400
+        return jsonify({"error": "Missing 'movie' field in request body"}), 400
 
     recommendations = recommend_movies(movie_title)
-    
     if not recommendations:
-        return jsonify({"error": "Movie not found"}), 404
+        return jsonify({"error": "Movie not found in database"}), 404
 
-    return jsonify(recommendations)
+    return jsonify({"recommended": recommendations})
 
-# ---- Run locally ----
+# ---- Entry point for local dev (optional) ----
 if __name__ == "__main__":
     app.run(debug=True)
