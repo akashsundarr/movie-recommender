@@ -8,17 +8,20 @@ A fullstack web application that provides movie recommendations based on content
 
 ```mermaid
 graph TD
-    A[User]
-    A --> B[React Frontend (Vercel)]
-    B --> C[Flask Backend (Render)]
-    C --> D[model.pkl (Google Drive)]
-    C --> E[Recommendation Engine]
-    B --> F[OMDb API]
-    E --> G[Recommended Movie Titles]
-    F --> H[Movie Metadata]
-    G --> B
-    H --> B
-    B --> A[Final UI: Recommendations]
+    A[User's Browser]
+    A --> B(Frontend App on Vercel)
+    
+    B --> |Sends movie title| C(Backend API on Render)
+    
+    C --> |Conditional Download| D{model.pkl on Google Drive?}
+    
+    C --> |Returns movie titles| B
+    
+    B --> |Fetches details| E(OMDb API)
+    
+    E --> |Returns movie data| B
+    
+    B --> |Displays recommendations| A
 ```
 
 ---
