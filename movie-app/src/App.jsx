@@ -10,7 +10,12 @@ export default function MovieRecommender() {
   const [input, setInput] = useState("")
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(false)
-
+  
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+     fetchRecommendations();
+    }
+  };
   const fetchRecommendations = async () => {
     if (!input.trim()) return
     setLoading(true)
@@ -67,6 +72,7 @@ export default function MovieRecommender() {
         />
         <Button
           onClick={fetchRecommendations}
+          onKeyDown={handleKeyDown}
           className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-950 transition-all duration-200 shadow-md"
           disabled={loading}
         >
