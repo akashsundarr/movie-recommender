@@ -1,6 +1,6 @@
 import os
 import pickle
-import urllib.request
+import gdown
 import pandas as pd
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -10,9 +10,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 MODEL_URL = "https://drive.google.com/uc?export=download&id=1sGPdOb3SJLy7TzSn5ULYVKQplsR0tLpk"
 MODEL_PATH = "model.pkl"
 
-if not os.path.exists(MODEL_PATH):
+if not os.path.exists("model.pkl"):
     print("Downloading model.pkl...")
-    urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
+    gdown.download(MODEL_URL, "model.pkl", quiet=False)
     print("model.pkl downloaded.")
 
 # ---- Load model ----
